@@ -14,14 +14,21 @@
 import assert from "node:assert/strict";
 import http from "node:http";
 import { createRequire } from "node:module";
+import { existsSync } from "node:fs";
 import { mkdtemp, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
-const jitiPath =
-	"/Users/xuguangzheng/.pi/npm-global/lib/node_modules/@earendil-works/pi-coding-agent/node_modules/jiti/lib/jiti.cjs";
+// jiti is pi's extension loader; take it from the local devDependency install
+// (fallback: the global pi installation) so this test runs on any machine.
+const jitiCandidates = [
+	resolve(fileURLToPath(new URL(".", import.meta.url)), "..", "node_modules", "@earendil-works", "pi-coding-agent", "node_modules", "jiti", "lib", "jiti.cjs"),
+	"/Users/xuguangzheng/.pi/npm-global/lib/node_modules/@earendil-works/pi-coding-agent/node_modules/jiti/lib/jiti.cjs",
+];
+const jitiPath = jitiCandidates.find((p) => existsSync(p));
+assert.ok(jitiPath, "jiti not found — run npm install first");
 const { createJiti } = require(jitiPath);
 
 const HUB_PORT = 7733;
