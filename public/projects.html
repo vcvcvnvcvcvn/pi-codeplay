@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全部项目 · Codeplay</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", sans-serif;
+      color: #24292f;
+      background-color: #fbfcfd;
+      background-image: radial-gradient(circle, #d8dde5 1.1px, transparent 1.1px);
+      background-size: 22px 22px;
+      padding: 40px 20px;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+    h1 { font-size: 20px; }
+    #meta { font-size: 12px; color: #9aa1ad; }
+    a.card {
+      display: block;
+      background: #ffffff;
+      border: 1px solid #e5e8ee;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    a.card:hover { border-color: #b9c2cf; box-shadow: 0 4px 16px rgba(31, 35, 40, 0.08); }
+    .name { font-size: 15px; font-weight: 700; color: #1f2328; }
+    .self {
+      font-size: 11px;
+      font-weight: 500;
+      color: #15803d;
+      background: #dcfce7;
+      border-radius: 999px;
+      padding: 2px 8px;
+      margin-left: 8px;
+      vertical-align: 1px;
+    }
+    .cwd {
+      font-family: "SF Mono", Menlo, monospace;
+      font-size: 12px;
+      color: #6a7280;
+      margin-top: 6px;
+      word-break: break-all;
+    }
+    .meta2 { font-size: 12px; color: #9aa1ad; margin-top: 6px; }
+    .empty { text-align: center; color: #9aa1ad; padding: 60px 0; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Codeplay 项目索引</h1>
+      <span id="meta"></span>
+    </header>
+    <main id="list"><div class="empty">加载中…</div></main>
+  </div>
+
+  <script>
+    function esc(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function render(items) {
+      var list = document.getElementById("list");
+      document.getElementById("meta").textContent = "共 " + items.length + " 个 · 每 3 秒自动刷新";
+      if (items.length === 0) {
+        list.innerHTML = '<div class="empty">暂无运行中的项目</div>';
+        return;
+      }
+      list.innerHTML = items.map(function (it) {
+        var url = "/" + encodeURIComponent(it.slug) + "/";
+        var time = "";
+        if (it.startedAt) {
+          var d = new Date(it.startedAt);
+          var p = function (x) { return (x < 10 ? "0" : "") + x; };
+          time = " · 启动于 " + p(d.getHours()) + ":" + p(d.getMinutes());
+        }
+        return '<a class="card" href="' + url + '">' +
+          '<div class="name">' + esc(it.project) + '<span class="self">/' + esc(it.slug) + "/</span></div>" +
+          '<div class="cwd">' + esc(it.cwd) + "</div>" +
+          '<div class="meta2">' + location.origin + "/" + esc(it.slug) + "/" + time + "</div>" +
+          "</a>";
+      }).join("");
+    }
+
+    function load() {
+      fetch("/api/projects")
+        .then(function (r) { return r.json(); })
+        .then(render)
+        .catch(function () {
+          document.getElementById("list").innerHTML = '<div class="empty">无法获取项目列表</div>';
+        });
+    }
+
+    load();
+    setInterval(load, 3000);
+  </script>
+</body>
+</html>

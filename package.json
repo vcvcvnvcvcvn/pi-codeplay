@@ -1,0 +1,41 @@
+{
+  "name": "pi-codeplay",
+  "version": "0.1.0",
+  "description": "Pi extension: live DAG panel as a shared communication medium between human and agent (plan/architecture/dependencies visualization, progress announcements, multi-project hub on one local port)",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "pi-package"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "index.ts",
+    "hub.mjs",
+    "public",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "node test/smoke.mjs && node test/symlink-jiti.mjs && node test/multi-project.mjs"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-ai": "^0.87.0",
+    "@earendil-works/pi-coding-agent": "^0.87.0",
+    "@types/node": "^24.0.0",
+    "typebox": "1.3.27",
+    "typescript": "^5.9.0"
+  }
+}

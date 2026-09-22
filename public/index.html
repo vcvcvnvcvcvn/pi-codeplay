@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codeplay DAG</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="topbar">
+    <div class="brand">Codeplay <span class="sub">DAG 可视化面板</span> <span id="project-name" class="project hidden"></span></div>
+    <div class="legend">
+      <span class="dot pending"></span>未开始
+      <span class="dot active"></span>进行中
+      <span class="dot done"></span>已完成
+    </div>
+    <div class="actions">
+      <span id="conn" class="conn offline">连接中…</span>
+      <button id="btn-ann" title="公告栏">公告<span id="ann-badge" class="badge-num hidden"></span></button>
+      <a class="btn" href="/" target="_blank" rel="noopener">全部项目</a>
+      <button id="btn-relayout" title="重新布局">重新布局</button>
+      <button id="btn-fit" title="适应画布">适应画布</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="cy"></div>
+    <aside id="panel" class="hidden">
+      <button id="panel-close" title="关闭">×</button>
+      <div id="panel-body"></div>
+    </aside>
+    <aside id="ann-panel" class="hidden">
+      <button id="ann-close" title="关闭">×</button>
+      <h2>公告栏</h2>
+      <div id="ann-list"></div>
+    </aside>
+    <div id="empty" class="hidden">
+      <p>图还是空的</p>
+      <p class="hint">让 agent 通过 dag_add_node / dag_add_edge 工具来构建图</p>
+    </div>
+  </main>
+
+  <script src="vendor/dagre.min.js"></script>
+  <script src="vendor/cytoscape.min.js"></script>
+  <script src="vendor/cytoscape-dagre.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
