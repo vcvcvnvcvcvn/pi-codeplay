@@ -15,14 +15,14 @@
 
 ```bash
 # 从 GitHub 安装（全局）
-pi install git:github.com/<your-user>/pi-codeplay
+pi install git:github.com/vcvcvnvcvcvn/pi-codeplay
 # 或指定版本 tag
-pi install git:github.com/<your-user>/pi-codeplay@v0.1.0
+pi install git:github.com/vcvcvnvcvcvn/pi-codeplay@v0.1.0
 # 只装到某个项目
-pi install -l git:github.com/<your-user>/pi-codeplay
+pi install -l git:github.com/vcvcvnvcvcvn/pi-codeplay
 ```
 
-安装后启动任意会话即自动生效；`/dag` 命令随时打开画布。卸载：`pi remove git:github.com/<your-user>/pi-codeplay`。
+安装后启动任意会话即自动生效；`/dag` 命令随时打开画布。卸载：`pi remove git:github.com/vcvcvnvcvcvn/pi-codeplay`。
 
 本地开发调试：
 
